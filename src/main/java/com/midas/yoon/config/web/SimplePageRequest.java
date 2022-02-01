@@ -5,12 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 public class SimplePageRequest {
+    private final int MAX_PAGE_SIZE = 20;
+
     private final int page;
     private final int size;
 
     public SimplePageRequest(int page, int size) {
         if (page < 1 || page > Integer.MAX_VALUE) page = 1;
-        if (size < 1 || size > 10) size = 10;
+        if (size < 1 || size > MAX_PAGE_SIZE) size = MAX_PAGE_SIZE;
 
         this.page = page;
         this.size = size;

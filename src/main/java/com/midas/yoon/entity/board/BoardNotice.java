@@ -1,5 +1,7 @@
 package com.midas.yoon.entity.board;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.midas.yoon.entity.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "board_notices")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardNotice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,11 +23,9 @@ public class BoardNotice {
 
     private String imageContent;
 
-    private Long userId;
+    private Integer readCount;
 
-    private int readCount;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
@@ -33,4 +34,16 @@ public class BoardNotice {
     @OneToMany
     @JoinColumn(name = "boardId")
     private List<BoardNoticeComment> comments;
+
+    @OneToMany
+    @JoinColumn(name = "boardId")
+    private List<BoardNoticeFile> files;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @Transient private Long commentCount;
+    @Transient private Long fileCount;
+    @Transient private String nickname;
 }
