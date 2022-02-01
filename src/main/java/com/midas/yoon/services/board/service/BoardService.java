@@ -2,6 +2,7 @@ package com.midas.yoon.services.board.service;
 
 import com.midas.yoon.config.web.SimplePageRequest;
 import com.midas.yoon.entity.board.BoardNotice;
+import com.midas.yoon.entity.board.BoardNoticeComment;
 import com.midas.yoon.entity.board.BoardNoticeFile;
 import com.midas.yoon.errors.NotFoundException;
 import com.midas.yoon.services.board.repository.BoardRepository;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 @Service
 public class BoardService {
@@ -24,6 +27,12 @@ public class BoardService {
         if (ObjectUtils.isEmpty(board) || board.getDelYn().equals("Y")) {
             throw new NotFoundException("존재하지 않거나 삭제된 정보입니다.");
         }
+
+        List<BoardNoticeFile> files = boardRepository.getBoardFiles(id);
+        List<BoardNoticeComment> comments = boardRepository.getComments(id);
+
+        board.setFiles(files);
+        board.setComments(comments);
 
         return board;
     }

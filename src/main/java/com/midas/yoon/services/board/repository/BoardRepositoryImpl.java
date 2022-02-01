@@ -80,6 +80,28 @@ public class BoardRepositoryImpl extends QuerydslRepositorySupport implements Bo
     }
 
     @Override
+    public List<BoardNoticeFile> getBoardFiles(Long id) {
+        QBoardNoticeFile qBoardNoticeFile = QBoardNoticeFile.boardNoticeFile;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qBoardNoticeFile.delYn.eq("N"));
+        builder.and(qBoardNoticeFile.boardId.eq(id));
+
+        return jpaQueryFactory
+            .select(
+                Projections.fields(
+                    BoardNoticeFile.class,
+                    qBoardNoticeFile.id,
+                    qBoardNoticeFile.clientFileName
+                )
+            )
+            .from(qBoardNoticeFile)
+            .where(builder)
+            .orderBy(qBoardNoticeFile.fileIndex.asc())
+            .fetch();
+    }
+
+    @Override
     public BoardNoticeFile getBoardFile(Long fileId) {
         QBoardNotice qBoardNotice = QBoardNotice.boardNotice;
         QBoardNoticeFile qBoardNoticeFile = QBoardNoticeFile.boardNoticeFile;
@@ -101,5 +123,29 @@ public class BoardRepositoryImpl extends QuerydslRepositorySupport implements Bo
             .leftJoin(qBoardNotice).on(qBoardNoticeFile.boardId.eq(qBoardNotice.id))
             .where(builder)
             .fetchFirst();
+    }
+
+    @Override
+    public List<BoardNoticeComment> getComments(Long id) {
+        QBoardNoticeComment qBoardNoticeComment = QBoardNoticeComment.boardNoticeComment;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qBoardNoticeComment.delYn.eq("N"));
+        builder.and(qBoardNoticeComment.boardId.eq(id));
+
+        return jpaQueryFactory
+            .select(
+                Projections.fields(
+                    BoardNoticeComment.class,
+                    qBoardNoticeComment.id,
+                    qBoardNoticeComment.user.nickname,
+                    qBoardNoticeComment.content,
+                    qBoardNoticeComment.createdAt
+                )
+            )
+            .from(qBoardNoticeComment)
+            .where(builder)
+            .orderBy(qBoardNoticeComment.createdAt.asc())
+            .fetch();
     }
 }

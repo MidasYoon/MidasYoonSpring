@@ -29,4 +29,6 @@ public class BoardNoticeComment {
     private LocalDateTime updatedAt;
 
     private String delYn;
+
+    @Transient private String nickname;
 }

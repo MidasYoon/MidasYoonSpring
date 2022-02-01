@@ -31,17 +31,12 @@ public class BoardNotice {
 
     private String delYn;
 
-    @OneToMany
-    @JoinColumn(name = "boardId")
-    private List<BoardNoticeComment> comments;
-
-    @OneToMany
-    @JoinColumn(name = "boardId")
-    private List<BoardNoticeFile> files;
-
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
+
+    @Transient private List<BoardNoticeComment> comments;
+    @Transient private List<BoardNoticeFile> files;
 
     @Transient private Long commentCount;
     @Transient private Long fileCount;
