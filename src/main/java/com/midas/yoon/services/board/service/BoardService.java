@@ -12,9 +12,6 @@ import org.springframework.util.ObjectUtils;
 
 @Service
 public class BoardService {
-
-    private static String BOARD_NOTICE_FILE_ROOT_DIR = "/files/efd2af60c8501931cb9c736b5ad74f65/";
-
     @Autowired
     private BoardRepository boardRepository;
 
@@ -36,8 +33,6 @@ public class BoardService {
         if (ObjectUtils.isEmpty(file)) {
             throw new NotFoundException("존재하지 않거나 삭제된 정보입니다.");
         }
-
-        file.setPath(BOARD_NOTICE_FILE_ROOT_DIR);
 
         return file;
     }

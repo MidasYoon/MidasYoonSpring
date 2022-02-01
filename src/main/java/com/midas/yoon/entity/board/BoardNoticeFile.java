@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.midas.yoon.utils.constants.MYConstants.BOARD_NOTICE_FILE_ROOT_DIR;
+
 @Entity
 @Data
 @Table(name = "board_notice_files")
@@ -31,5 +33,5 @@ public class BoardNoticeFile {
 
     private String delYn;
 
-    @Transient private String path;
+    @Transient private String path = BOARD_NOTICE_FILE_ROOT_DIR;
 }
