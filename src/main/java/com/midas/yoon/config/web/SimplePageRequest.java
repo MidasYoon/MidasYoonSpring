@@ -12,7 +12,7 @@ public class SimplePageRequest {
 
     public SimplePageRequest(int page, int size) {
         if (page < 1 || page > Integer.MAX_VALUE) page = 1;
-        if (size < 1 || size > MAX_PAGE_SIZE) size = MAX_PAGE_SIZE;
+        if (size < 1 || size > Integer.MAX_VALUE) size = MAX_PAGE_SIZE;
 
         this.page = page;
         this.size = size;
